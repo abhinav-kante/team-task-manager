@@ -1,5 +1,6 @@
-import { Routes, Route, Navigate } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { Routes, Route, Navigate, useNavigate } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { useEffect } from 'react'
 import Login from './components/Login.jsx'
 import Signup from './components/Signup.jsx'
 import Dashboard from './components/Dashboard.jsx'
@@ -9,9 +10,21 @@ import ProtectedRoute from './components/ProtectedRoute.jsx'
 import Header from './components/Header.jsx'
 import HomePage from './pages/HomePage.jsx'
 import NotFound from './pages/NotFound.jsx'
+import { logout } from './features/auth/authSlice'
 
 function App() {
   const { token } = useSelector((state) => state.auth)
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const handleUnauthorized = () => {
+      dispatch(logout())
+      navigate('/login')
+    }
+    window.addEventListener('auth:unauthorized', handleUnauthorized)
+    return () => window.removeEventListener('auth:unauthorized', handleUnauthorized)
+  }, [dispatch, navigate])
 
   return (
     <div className="app">

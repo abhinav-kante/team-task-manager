@@ -25,7 +25,8 @@ function TaskForm({ projectId, members, task, onClose, onSuccess }) {
       description: form.description || undefined,
       assigned_to: form.assigned_to ? parseInt(form.assigned_to) : undefined,
       status: form.status,
-      due_date: form.due_date ? new Date(form.due_date).toISOString() : undefined,
+      // Append time component to preserve local date without UTC shift
+      due_date: form.due_date ? `${form.due_date}T00:00:00` : undefined,
     }
 
     let result
