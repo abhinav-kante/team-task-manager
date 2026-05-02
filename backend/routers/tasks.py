@@ -112,6 +112,16 @@ def update_task(task_id: int, data: TaskUpdate, db: Session = Depends(get_db), c
     if data.description is not None:
         task.description = data.description
     if data.assigned_to is not None:
+        assignee_member = db.query(ProjectMember).filter(
+            ProjectMember.project_id == task.project_id,
+            ProjectMember.user_id == data.assigned_to
+        ).first()
+        assigned_project = db.query(Project).filter(
+            Project.id == task.project_id,
+            Project.owner_id == data.assigned_to
+        ).first()
+        if not assignee_member and not assigned_project:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Assignee is not a project member")
         task.assigned_to = data.assigned_to
     if data.status is not None:
         task.status = data.status
