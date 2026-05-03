@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { deleteTask, updateTask } from '../features/task/taskSlice'
 import TaskForm from './TaskForm'
 import { STATUS_COLORS, TASK_STATUSES } from '../utils/constants'
+import PropTypes from 'prop-types'
 
 function TaskList({ tasks, projectId, members, isAdmin }) {
   const dispatch = useDispatch()
@@ -100,6 +101,33 @@ function TaskList({ tasks, projectId, members, isAdmin }) {
       )}
     </div>
   )
+}
+
+const userShape = PropTypes.shape({
+  full_name: PropTypes.string,
+  email: PropTypes.string,
+})
+
+const taskShape = PropTypes.shape({
+  id: PropTypes.number,
+  title: PropTypes.string,
+  status: PropTypes.string,
+  due_date: PropTypes.string,
+  description: PropTypes.string,
+  assigned_to: PropTypes.number,
+  created_by: PropTypes.number,
+  assignee: userShape,
+  creator: userShape,
+})
+
+TaskList.propTypes = {
+  tasks: PropTypes.arrayOf(taskShape).isRequired,
+  projectId: PropTypes.number.isRequired,
+  members: PropTypes.arrayOf(PropTypes.shape({
+    user_id: PropTypes.number,
+    user: userShape,
+  })),
+  isAdmin: PropTypes.bool.isRequired,
 }
 
 export default TaskList

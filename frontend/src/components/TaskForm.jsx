@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { createTask, updateTask } from '../features/task/taskSlice'
 import { TASK_STATUSES } from '../utils/constants'
+import PropTypes from 'prop-types'
 
 function TaskForm({ projectId, members, task, onClose, onSuccess }) {
   const dispatch = useDispatch()
@@ -118,6 +119,29 @@ function TaskForm({ projectId, members, task, onClose, onSuccess }) {
       </div>
     </div>
   )
+}
+
+const memberShape = PropTypes.shape({
+  user_id: PropTypes.number,
+  user: PropTypes.shape({
+    full_name: PropTypes.string,
+    email: PropTypes.string,
+  }),
+})
+
+TaskForm.propTypes = {
+  projectId: PropTypes.number.isRequired,
+  members: PropTypes.arrayOf(memberShape),
+  task: PropTypes.shape({
+    id: PropTypes.number,
+    title: PropTypes.string,
+    description: PropTypes.string,
+    assigned_to: PropTypes.number,
+    status: PropTypes.string,
+    due_date: PropTypes.string,
+  }),
+  onClose: PropTypes.func.isRequired,
+  onSuccess: PropTypes.func,
 }
 
 export default TaskForm

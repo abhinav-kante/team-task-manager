@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { addProjectMember, removeProjectMember } from '../features/project/projectSlice'
 import { ROLE_COLORS, USER_ROLES } from '../utils/constants'
+import PropTypes from 'prop-types'
 
 function TeamManager({ project, isAdmin }) {
   const dispatch = useDispatch()
@@ -98,6 +99,24 @@ function TeamManager({ project, isAdmin }) {
       </table>
     </div>
   )
+}
+
+TeamManager.propTypes = {
+  project: PropTypes.shape({
+    id: PropTypes.number,
+    owner_id: PropTypes.number,
+    members: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.number,
+      user_id: PropTypes.number,
+      role: PropTypes.string,
+      joined_at: PropTypes.string,
+      user: PropTypes.shape({
+        full_name: PropTypes.string,
+        email: PropTypes.string,
+      }),
+    })),
+  }).isRequired,
+  isAdmin: PropTypes.bool.isRequired,
 }
 
 export default TeamManager

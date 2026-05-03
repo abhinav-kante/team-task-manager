@@ -43,4 +43,4 @@ Thumbs.db
 *.swo
 
 # Auto-generated SQLite database
-backend/taskmanager.dbbackend/taskmanager.db
+backend/taskmanager.db
