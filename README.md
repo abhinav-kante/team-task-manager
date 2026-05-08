@@ -52,7 +52,7 @@ team-task-manager/
 ### 1) Backend setup
 
 ```bash
-cd /home/runner/work/team-task-manager/team-task-manager/backend
+cd backend
 python -m venv venv
 source venv/bin/activate   # Windows: venv\Scripts\activate
 pip install -r requirements.txt
@@ -68,7 +68,7 @@ Backend API:
 ### 2) Frontend setup
 
 ```bash
-cd /home/runner/work/team-task-manager/team-task-manager/frontend
+cd frontend
 npm install
 cp .env.example .env.local
 npm run dev
